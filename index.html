@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f1720">
+<meta name="description" content="Tjek din lønseddel automatisk – del den fra e-Boks. Alt sker på din telefon.">
+<title>LønKontrol</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <h1>LønKontrol</h1>
+  <span class="lock" title="Alt bliver på din telefon">🔒 kun på din telefon</span>
+</header>
+
+<main>
+  <!-- HJEM -->
+  <section id="view-home" class="view">
+    <label class="big-btn primary" for="file">
+      <span class="ico">📄</span> Tjek lønseddel
+    </label>
+    <input id="file" type="file" accept="application/pdf,.pdf" hidden>
+    <p class="hint">Hurtigst: Åbn lønsedlen i <b>e-Boks</b> → tryk <b>Del</b> → vælg <b>LønKontrol</b>.</p>
+
+    <button id="install" class="big-btn" hidden><span class="ico">📲</span> Installér appen</button>
+    <p id="install-hint" class="hint small" hidden>Installér appen, så den dukker op i Del-menuen.</p>
+
+    <div id="setup-nudge" class="card nudge" hidden>
+      <b>Lønstigning?</b> Skriv din nye timeløn under Indstillinger, så tjekker jeg at den kommer med.
+      <a href="#settings" class="link-btn">Åbn indstillinger</a>
+    </div>
+
+    <h2 class="section-title" id="history-title" hidden>Dine lønsedler</h2>
+    <ul id="history" class="history"></ul>
+  </section>
+
+  <!-- ARBEJDER -->
+  <section id="view-busy" class="view" hidden>
+    <div class="busy"><div class="spinner"></div><p>Læser lønsedlen…</p></div>
+  </section>
+
+  <!-- RESULTAT -->
+  <section id="view-result" class="view" hidden>
+    <div id="banner" class="banner"></div>
+    <div id="figures" class="figures"></div>
+    <ul id="checks" class="checks"></ul>
+    <div class="actions">
+      <button id="btn-share" class="big-btn primary"><span class="ico">📤</span> Del resultat</button>
+      <button id="btn-edit" class="big-btn"><span class="ico">✏️</span> Ret tal</button>
+      <button id="btn-delete" class="big-btn danger"><span class="ico">🗑️</span> Slet</button>
+    </div>
+  </section>
+
+  <!-- RET TAL -->
+  <section id="view-edit" class="view" hidden>
+    <h2 class="section-title">Ret tal</h2>
+    <p class="hint small">Kun hvis noget er læst forkert. Tom = ikke fundet.</p>
+    <form id="edit-form" class="form"></form>
+    <button id="btn-save-edit" class="big-btn primary"><span class="ico">✅</span> Gem og tjek igen</button>
+  </section>
+
+  <!-- INDSTILLINGER -->
+  <section id="view-settings" class="view" hidden>
+    <h2 class="section-title">Indstillinger</h2>
+    <form id="settings-form" class="form">
+      <fieldset class="seg">
+        <legend>Lønperiode</legend>
+        <label><input type="radio" name="periode" value="maaned"> Måned</label>
+        <label><input type="radio" name="periode" value="14dage"> 14 dage</label>
+      </fieldset>
+      <label>Timeløn da du startede (kr)
+        <input name="startTimeloen" inputmode="decimal" placeholder="160">
+      </label>
+      <label>Startmåned
+        <input name="startMaaned" type="month">
+      </label>
+      <label>Ny timeløn efter lønstigning (kr)
+        <input name="nyTimeloen" inputmode="decimal" placeholder="fx 170">
+      </label>
+      <label>Trækprocent fra forskudsopgørelsen
+        <input name="traek" inputmode="decimal" placeholder="fx 38">
+      </label>
+      <label>Fradrag pr. periode fra forskudsopgørelsen (kr)
+        <input name="fradrag" inputmode="decimal" placeholder="fx 4.950">
+      </label>
+    </form>
+    <button id="btn-save-settings" class="big-btn primary"><span class="ico">💾</span> Gem</button>
+    <h2 class="section-title">Backup</h2>
+    <button id="btn-export" class="big-btn"><span class="ico">⬆️</span> Del backup</button>
+    <label class="big-btn" for="import"><span class="ico">⬇️</span> Hent backup</label>
+    <input id="import" type="file" accept="application/json,.json" hidden>
+    <p class="hint small">LønKontrol gemmer kun tallene – ikke PDF'en og ikke dit CPR-nummer. Intet sendes til en server.</p>
+  </section>
+</main>
+
+<nav class="bottom">
+  <a href="#" data-nav="home">🏠<span>Hjem</span></a>
+  <a href="#settings" data-nav="settings">⚙️<span>Indstillinger</span></a>
+</nav>
+<div id="toast" class="toast" hidden></div>
+<footer class="ver">v<span id="ver"></span></footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
